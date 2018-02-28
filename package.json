@@ -1,0 +1,27 @@
+{
+  "name": "event-locator",
+  "displayName": "Event Locator",
+  "version": "1.0.0",
+  "description": "Simple multi-platform event locator",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard --fix"
+  },
+  "author": "Apache Cordova Team",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "cordova-android": "^6.3.0",
+    "cordova-plugin-whitelist": "1"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {}
+    },
+    "platforms": [
+      "android"
+    ]
+  },
+  "devDependencies": {
+    "standard": "^11.0.0"
+  }
+}
