@@ -26,6 +26,10 @@ html, body {
     height: 100%;
 }
 
+#map {
+    height: 500px;
+}
+
 body {
     font-family: sans-serif;
     text-align: center;
