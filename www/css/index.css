@@ -35,3 +35,17 @@ body {
     text-align: center;
     background-color: #f7f7f7;
 }
+
+#pop-up{
+    display: block;
+    width:150px;
+    height: 100px;
+    background-color: white;
+}
+.displayNone{
+    display: none;
+}
+
+.displayB{
+    display: block;
+}
