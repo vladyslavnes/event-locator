@@ -10,15 +10,20 @@
   "author": "Apache Cordova Team",
   "license": "Apache-2.0",
   "dependencies": {
-    "cordova-android": "^6.3.0",
-    "cordova-plugin-whitelist": "1"
+    "cordova-android": "^6.4.0",
+    "cordova-browser": "^5.0.3",
+    "cordova-plugin-whitelist": "1",
+    "cordova-windows": "^5.0.0",
+    "markerclustererplus": "^2.1.4"
   },
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {}
     },
     "platforms": [
-      "android"
+      "android",
+      "browser",
+      "windows"
     ]
   },
   "devDependencies": {
