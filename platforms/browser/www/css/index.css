@@ -37,7 +37,6 @@ body {
 }
 
 #pop-up{
-    display: block;
     width:150px;
     height: 100px;
     background-color: white;
