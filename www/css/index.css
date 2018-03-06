@@ -37,9 +37,13 @@ body {
 }
 
 #pop-up{
-    width:150px;
-    height: 100px;
-    background-color: white;
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    top:40%;
+    left:43%;
+    width: 210px;
+    height: 120px;
+    background-color: transparent; /* Fallback color */
 }
 .displayNone{
     display: none;
@@ -47,4 +51,27 @@ body {
 
 .displayB{
     display: block;
+}
+
+#add-event{
+    background-color: red;
+    border: none;
+    color: white;
+    font-size: 20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+#add-event:focus{
+    outline:none;
+}
+
+#submit{
+    margin-top: 5px;
+    font-size: 14px;
+    padding: 5px 15px;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+
 }

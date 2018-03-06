@@ -20,23 +20,23 @@
 var map;
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 2,
+        zoom: 3,
         center: new google.maps.LatLng(2.8, -187.3),
         mapTypeId: 'terrain'
     });
-
+    renderEventsOnMap(event, map);
     // Create a <script> tag and set the USGS URL as the source.
     var script = document.createElement('script');
 
-    var contentString = '<div id="content">'+
-        '<div id="siteNotice">'+
-        '</div>'+'<span>'+CreatedBy+'</span>'
-        '<h1 id="firstHeading" class="firstHeading">Name event'+name+'</h1>'+
-           '<div class="time">'+time+'</div>'
-        '<div id="bodyContent">'+
-        '<p>'+description+'</p>'+
-        '</div>'+
-        '</div>';
+    var contentString = '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' + '<span>' + this.createdByName + '</span>'
+    '<h1 id="firstHeading" class="firstHeading">Name event' + this.name + '</h1>' +
+    '<div class="time">' + this.time + '</div>'
+    '<div id="bodyContent">' +
+    '<p>' + this.description + '</p>' +
+    '</div>' +
+    '</div>';
 
     var infowindow = new google.maps.InfoWindow({
         content: contentString
@@ -50,21 +50,62 @@ function initMap() {
 
     google.maps.event.addListener(map, "click", function (e) {
         var clickPosition = e.latLng;
-       // $('#pop-up').attr('display', 'none');
+        // $('#pop-up').attr('display', 'none');
     });
 
 }
 
-// Loop through the results array and place a marker for each
-// set of coordinates.
-
-window.eqfeed_callback = function (results) {
-    for (var i = 0; i < results.features.length; i++) {
-        var coords = results.features[i].geometry.coords;
-        var latLng = new google.maps.LatLng(coords[lat], coords[lng]);
-        var marker = new google.maps.Marker({
-            position: latLng,
-            map: map
-        });
+function renderEventsOnMap(event, map) {
+    if (event) {
+        for (let i = 0; i < event.length; i++) {
+            let marker = new google.maps.Marker({
+                position: event[i].location,
+                map: map
+            })
+            let infoContent = `<div class="info">
+                <h4 class="title">${event[i].name}</h4>
+                <p class="data">${event[i].time}</p>
+            </div>`
+            let infoWindow = new google.maps.InfoWindow({
+                content: infoContent
+            })
+            marker.addListener('click', () => {
+                infoWindow.open(map, marker)
+            })
+        }
     }
+}
+
+function postEvent(data) {
+    return axios(`${API_HOST}`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data: JSON.stringify(data)
+    }).then((result) => {
+        return result
+    }).catch(err => {
+        console.log(err)
+    })
+}
+
+function submitEvent() {
+    $('#pop-up').removeClass('displayB').addClass('displayNone');
+    $('#add-event').removeClass('displayNone');
+    let name = $('#name').val()
+    let description = $('#description').val()
+    let hash = $('#hash').val()
+    let createdByName = $('#createdByName').val()
+    let createdByEmail = $('#createdByEmail').val()
+    let newEvent = {name, description, hash, createdByName, createdByEmail}
+    this.postEvent(newEvent)
+        .then((event) => {
+            this.renderEventsOnMap([event], this.map)
+        })
+}
+
+function addEvent() {
+    $('#pop-up').removeClass('displayNone').addClass('displayB');
+    $('#add-event').addClass('displayNone');
 }
