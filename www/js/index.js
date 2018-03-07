@@ -16,15 +16,24 @@
 //  * specific language governing permissions and limitations
 //  * under the License.
 //  */
+const API_HOST = 'http://events-locator-api.herokuapp.com/api/v1/events';
 
-var map;
+var map,
+    overlay;
+
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 3,
         center: new google.maps.LatLng(2.8, -187.3),
         mapTypeId: 'terrain'
     });
-    renderEventsOnMap(event, map);
+
+    overlay = new google.maps.OverlayView();
+    overlay.draw = function () {
+    };
+    overlay.setMap(map);
+
+    //  renderEventsOnMap(event, map);
     // Create a <script> tag and set the USGS URL as the source.
     var script = document.createElement('script');
 
@@ -38,21 +47,19 @@ function initMap() {
     '</div>' +
     '</div>';
 
-    var infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
-
-
-    google.maps.event.addListener(map, "dblclick", function (e) {
-        var clickPosition = e.latLng;
-        $('#pop-up').removeClass('displayNone').addClass('displayB');
-    });
-
     google.maps.event.addListener(map, "click", function (e) {
         var clickPosition = e.latLng;
-        // $('#pop-up').attr('display', 'none');
+        $('#pop-up').removeClass('displayNone').addClass('displayB');
+        renderEventsOnMap(e, map);
+        var point = new google.maps.Point(event.pageX, event.pageY);
+        var location = overlay.getProjection().fromContainerPixelToLatLng(point); //получаем координаты по значениям X,Y клика
+        console.log(location);
     });
 
+    var infowindow = new google.maps.InfoWindow({
+
+        content: contentString
+    });
 }
 
 function renderEventsOnMap(event, map) {
@@ -95,17 +102,17 @@ function submitEvent() {
     $('#add-event').removeClass('displayNone');
     let name = $('#name').val()
     let description = $('#description').val()
-    let hash = $('#hash').val()
+    let time = $('#date').val()
+    let coords = location;
     let createdByName = $('#createdByName').val()
     let createdByEmail = $('#createdByEmail').val()
-    let newEvent = {name, description, hash, createdByName, createdByEmail}
+    let newEvent = {name, description, time, coords, createdBy: {name: createdByName, email: createdByEmail}}
     this.postEvent(newEvent)
         .then((event) => {
             this.renderEventsOnMap([event], this.map)
         })
 }
 
-function addEvent() {
-    $('#pop-up').removeClass('displayNone').addClass('displayB');
-    $('#add-event').addClass('displayNone');
-}
+function cancelModal() {
+    $('#pop-up').removeClass('displayB').addClass('displayNone');
+  }

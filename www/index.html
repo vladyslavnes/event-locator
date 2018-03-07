@@ -46,12 +46,13 @@
 <div id="pop-up" class="displayNone">
     <input type="text" id="name" placeholder="Title">
     <input type="text" id="description" placeholder="Description">
-    <input type="text" id="hash" placeholder="Hash">
+    <input type="date" id="date">
     <input type="text" id="createdByName" placeholder="Your name">
     <input type="text" id="createdByEmail" placeholder="Your email">
-    <button type="submit" id="submit" onclick="submitEvent()">Submit</button>
+    <button type="submit" id="submit" class="btn" onclick="submitEvent()">Submit</button>
+    <button type="button" id="add-event" class="btn" onclick="cancelModal()">Cancel</button>
+
 </div>
-<button type="button" id="add-event" onclick="addEvent()">Add event</button>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8x_OxbwxTnq5KHU9dw5BFCldDpYCl9G4&callback=initMap"></script>
 <script type="text/javascript" src="cordova.js"></script>

@@ -39,9 +39,9 @@ body {
 #pop-up{
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    top:40%;
+    top:30%;
     left:43%;
-    width: 210px;
+    width: min-content;
     height: 120px;
     background-color: transparent; /* Fallback color */
 }
@@ -53,20 +53,13 @@ body {
     display: block;
 }
 
-#add-event{
-    background-color: red;
-    border: none;
-    color: white;
-    font-size: 20px;
-    padding: 10px 20px;
-    border-radius: 10px;
-    margin-top: 20px;
+input{
+    width: 100%;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
 }
-#add-event:focus{
-    outline:none;
-}
-
-#submit{
+.btn{
     margin-top: 5px;
     font-size: 14px;
     padding: 5px 15px;
