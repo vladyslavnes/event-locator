@@ -63,24 +63,20 @@ function initMap() {
 }
 
 function renderEventsOnMap(event, map) {
-    if (event) {
-        for (let i = 0; i < event.length; i++) {
-            let marker = new google.maps.Marker({
-                position: event[i].location,
-                map: map
-            })
-            let infoContent = `<div class="info">
-                <h4 class="title">${event[i].name}</h4>
-                <p class="data">${event[i].time}</p>
+    let marker = new google.maps.Marker({
+        position: initMap.location,
+        map: map
+    })
+    let infoContent = `<div class="info">
+                <h4 class="title">${initMap.name}</h4>
+                <p class="data">${initMap.time}</p>
             </div>`
-            let infoWindow = new google.maps.InfoWindow({
-                content: infoContent
-            })
-            marker.addListener('click', () => {
-                infoWindow.open(map, marker)
-            })
-        }
-    }
+    let infoWindow = new google.maps.InfoWindow({
+        content: infoContent
+    })
+    marker.addListener('click', () => {
+        infoWindow.open(map, marker)
+    })
 }
 
 function postEvent(data) {
@@ -103,16 +99,16 @@ function submitEvent() {
     let name = $('#name').val()
     let description = $('#description').val()
     let time = $('#date').val()
-    let coords = location;
+    let coords = initMap.location;
     let createdByName = $('#createdByName').val()
     let createdByEmail = $('#createdByEmail').val()
     let newEvent = {name, description, time, coords, createdBy: {name: createdByName, email: createdByEmail}}
     this.postEvent(newEvent)
         .then((event) => {
-            this.renderEventsOnMap([event], this.map)
+            this.renderEventsOnMap(initMap.location, this.map)
         })
 }
 
 function cancelModal() {
     $('#pop-up').removeClass('displayB').addClass('displayNone');
-  }
+}
