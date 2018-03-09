@@ -16,52 +16,44 @@
 //  * specific language governing permissions and limitations
 //  * under the License.
 //  */
-const API_HOST = 'http://events-locator-api.herokuapp.com/api/v1/events';
+const API_HOST = 'http://events-locator-api.herokuapp.com/api/v1/events'
 
 var map,
-    overlay;
-
+    overlay
+ // Initialization of the card.
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 3,
-        center: new google.maps.LatLng(2.8, -187.3),
+        zoom: 9,
+        center: new google.maps.LatLng(49.444431, 32.059769),
         mapTypeId: 'terrain'
-    });
+    })
 
-    overlay = new google.maps.OverlayView();
+    overlay = new google.maps.OverlayView()
     overlay.draw = function () {
-    };
-    overlay.setMap(map);
+    }
+    overlay.setMap(map)
 
-    //  renderEventsOnMap(event, map);
-    // Create a <script> tag and set the USGS URL as the source.
-    var script = document.createElement('script');
-
-    var contentString = '<div id="content">' +
-        '<div id="siteNotice">' +
-        '</div>' + '<span>' + this.createdByName + '</span>'
-    '<h1 id="firstHeading" class="firstHeading">Name event' + this.name + '</h1>' +
-    '<div class="time">' + this.time + '</div>'
-    '<div id="bodyContent">' +
-    '<p>' + this.description + '</p>' +
-    '</div>' +
-    '</div>';
-
+// Event for showing pop up.
     google.maps.event.addListener(map, "click", function (e) {
-        var clickPosition = e.latLng;
-        $('#pop-up').removeClass('displayNone').addClass('displayB');
-        renderEventsOnMap(e, map);
-        var point = new google.maps.Point(event.pageX, event.pageY);
-        var location = overlay.getProjection().fromContainerPixelToLatLng(point); //получаем координаты по значениям X,Y клика
+        var clickPosition = e.latLng
+        $('#pop-up').removeClass('displayNone').addClass('displayB')
+        renderEventsOnMap(e, map)
+        var point = new google.maps.Point(event.pageX, event.pageY)
+        var location = overlay.getProjection().fromContainerPixelToLatLng(point) //получаем координаты по значениям X,Y клика
         console.log(location);
     });
-
-    var infowindow = new google.maps.InfoWindow({
-
-        content: contentString
-    });
+console.log(API_HOST.events);
+    for (var i = 0; i < API_HOST.events.length; i++) {
+        var coords = API_HOST.events[i].coords;
+        var latLng = new google.maps.LatLng(coords.lat,coords.lng);
+        var marker = new google.maps.Marker({
+            position: latLng,
+            map: map
+        });
+    }
 }
 
+// Adding markers.
 function renderEventsOnMap(event, map) {
     let marker = new google.maps.Marker({
         position: initMap.location,
@@ -93,6 +85,7 @@ function postEvent(data) {
     })
 }
 
+// Hide pop up and to post event.
 function submitEvent() {
     $('#pop-up').removeClass('displayB').addClass('displayNone');
     $('#add-event').removeClass('displayNone');
@@ -108,7 +101,7 @@ function submitEvent() {
             this.renderEventsOnMap(initMap.location, this.map)
         })
 }
-
+// To show pop up.
 function cancelModal() {
-    $('#pop-up').removeClass('displayB').addClass('displayNone');
+    $('#pop-up').removeClass('displayB').addClass('displayNone')
 }
